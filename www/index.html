@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0f766e" />
+<title>Absensi Jamaah</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%8C%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<section id="screen-login" class="screen active">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">🕌</div>
+      <h1 class="login-title">Absensi Jamaah</h1>
+      <p class="muted">Sistem Absensi Shalat 5 Waktu</p>
+      <input id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="••••" class="pin-input" />
+      <button id="btn-login" class="btn btn-primary btn-lg">Masuk</button>
+      <p class="muted small">PIN demo: <b>1234</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="screen-dashboard" class="screen">
+  <header class="app-header">
+    <div>
+      <div class="app-title">Absensi Jamaah</div>
+      <div id="dash-date" class="muted small"></div>
+    </div>
+    <button id="btn-theme" class="icon-btn" title="Tema">🌙</button>
+  </header>
+  <div class="container">
+    <div class="card stat-card">
+      <div class="muted small">Total Jamaah</div>
+      <div id="dash-total" class="big-number">0</div>
+    </div>
+
+    <div id="dash-prayers" class="dash-prayers"></div>
+
+    <div id="dash-thursday" class="hidden">
+      <button id="btn-weekly" class="btn btn-primary btn-lg btn-block">📊 Buat Rekap Mingguan</button>
+    </div>
+
+    <div class="quick-actions">
+      <button class="quick-btn" data-go="absensi"><span class="qi">📝</span><span>Absensi</span></button>
+      <button class="quick-btn" data-go="jamaah"><span class="qi">👥</span><span>Data Jamaah</span></button>
+      <button class="quick-btn" data-go="rekap"><span class="qi">📊</span><span>Rekap</span></button>
+      <button class="quick-btn" data-go="kalender"><span class="qi">📅</span><span>Kalender</span></button>
+      <button class="quick-btn" data-go="pengaturan"><span class="qi">⚙️</span><span>Pengaturan</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABSENSI ================= -->
+<section id="screen-absensi" class="screen">
+  <header class="app-header">
+    <button class="icon-btn" data-go="dashboard">←</button>
+    <div class="app-title">Absensi Jamaah</div>
+    <button class="icon-btn" id="abs-today">📅</button>
+  </header>
+  <div class="container">
+    <div class="card date-card">
+      <div class="muted small">Tanggal Absensi</div>
+      <div id="abs-date-label" class="date-label"></div>
+      <input type="date" id="abs-date-input" class="date-input" />
+    </div>
+
+    <div class="tabs" id="abs-tabs"></div>
+
+    <div id="abs-list" class="list"></div>
+  </div>
+</section>
+
+<!-- ================= DATA JAMAAH ================= -->
+<section id="screen-jamaah" class="screen">
+  <header class="app-header">
+    <button class="icon-btn" data-go="dashboard">←</button>
+    <div class="app-title">Data Jamaah</div>
+    <button class="icon-btn" id="btn-add-jamaah">＋</button>
+  </header>
+  <div class="container">
+    <div class="card">
+      <input id="jamaah-search" class="input" type="text" placeholder="🔍 Cari nama..." />
+      <select id="jamaah-filter-kelas" class="input mt8">
+        <option value="">Semua Kelas/Kelompok</option>
+      </select>
+    </div>
+    <div id="jamaah-list" class="list"></div>
+  </div>
+</section>
+
+<!-- ================= REKAP ================= -->
+<section id="screen-rekap" class="screen">
+  <header class="app-header">
+    <button class="icon-btn" data-go="dashboard">←</button>
+    <div class="app-title">Rekap</div>
+    <button class="icon-btn" id="btn-export-csv">⬇</button>
+  </header>
+  <div class="container">
+    <div class="card">
+      <div class="muted small">Periode Rekap (Jumat → Kamis)</div>
+      <div id="rekap-period" class="date-label"></div>
+    </div>
+
+    <div class="tabs" id="rekap-tabs">
+      <button class="tab active" data-tab="all">Semua</button>
+      <button class="tab" data-tab="waktu">Per Waktu</button>
+      <button class="tab" data-tab="individu">Individu</button>
+    </div>
+
+    <div id="rekap-all" class="tab-content active"></div>
+    <div id="rekap-waktu" class="tab-content"></div>
+    <div id="rekap-individu" class="tab-content"></div>
+  </div>
+</section>
+
+<!-- ================= KALENDER ================= -->
+<section id="screen-kalender" class="screen">
+  <header class="app-header">
+    <button class="icon-btn" data-go="dashboard">←</button>
+    <div class="app-title">Kalender</div>
+    <div style="width:40px"></div>
+  </header>
+  <div class="container">
+    <div class="card">
+      <div class="cal-header">
+        <button class="icon-btn" id="cal-prev">‹</button>
+        <div id="cal-title" class="cal-title"></div>
+        <button class="icon-btn" id="cal-next">›</button>
+      </div>
+      <div class="cal-weekdays" id="cal-weekdays"></div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <span><i class="dot dot-green"></i> Lengkap</span>
+        <span><i class="dot dot-yellow"></i> Sebagian</span>
+        <span><i class="dot dot-gray"></i> Kosong</span>
+      </div>
+    </div>
+    <div id="cal-detail" class="mt12"></div>
+  </div>
+</section>
+
+<!-- ================= PENGATURAN ================= -->
+<section id="screen-pengaturan" class="screen">
+  <header class="app-header">
+    <button class="icon-btn" data-go="dashboard">←</button>
+    <div class="app-title">Pengaturan</div>
+    <div style="width:40px"></div>
+  </header>
+  <div class="container">
+    <div class="card">
+      <h3 class="h3">👤 Admin</h3>
+      <button id="btn-change-pin" class="btn btn-secondary btn-block mt8">🔑 Ganti PIN</button>
+      <button id="btn-logout" class="btn btn-danger btn-block mt8">🚪 Logout</button>
+    </div>
+
+    <div class="card">
+      <h3 class="h3">💾 Backup & Restore</h3>
+      <button id="btn-export-json" class="btn btn-secondary btn-block mt8">📤 Export Data (JSON)</button>
+      <label class="btn btn-secondary btn-block mt8" style="text-align:center">
+        📥 Import Data (JSON)
+        <input type="file" id="import-file" accept=".json,application/json" hidden />
+      </label>
+      <button id="btn-export-csv2" class="btn btn-secondary btn-block mt8">📊 Export Rekap CSV</button>
+    </div>
+
+    <div class="card">
+      <h3 class="h3">🎨 Tampilan</h3>
+      <button id="btn-theme2" class="btn btn-secondary btn-block mt8">🌓 Ganti Tema</button>
+    </div>
+
+    <div class="card">
+      <h3 class="h3">⚠️ Data</h3>
+      <button id="btn-load-demo" class="btn btn-secondary btn-block mt8">🧪 Muat Data Demo</button>
+      <button id="btn-clear-demo" class="btn btn-danger btn-block mt8">🗑 Hapus Data Demo</button>
+      <button id="btn-clear-all" class="btn btn-danger btn-block mt8">🚨 Hapus Semua Data</button>
+    </div>
+
+    <div class="card">
+      <h3 class="h3">ℹ️ Tentang</h3>
+      <p class="muted small">Absensi Jamaah v1.0.0<br />
+        Aplikasi pencatatan keikutsertaan shalat 5 waktu. Data tersimpan lokal di HP (IndexedDB) dan dapat dipakai offline. PIN hanya tersimpan lokal — bukan keamanan tingkat tinggi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NAV BAWAH ================= -->
+<nav id="bottom-nav" class="bottom-nav hidden">
+  <button data-go="dashboard" class="nav-btn active"><span>🏠</span><small>Home</small></button>
+  <button data-go="absensi" class="nav-btn"><span>📝</span><small>Absensi</small></button>
+  <button data-go="jamaah" class="nav-btn"><span>👥</span><small>Jamaah</small></button>
+  <button data-go="rekap" class="nav-btn"><span>📊</span><small>Rekap</small></button>
+  <button data-go="kalender" class="nav-btn"><span>📅</span><small>Kalender</small></button>
+</nav>
+
+<!-- ================= MODAL & TOAST ================= -->
+<div id="modal" class="modal hidden">
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card">
+    <div id="modal-body"></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+      </html>
